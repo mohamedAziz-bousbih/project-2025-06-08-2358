@@ -1,46 +1,54 @@
-# README.md
+# ESP32 – Object Classification from Camera Feed (TinyML)
 
-## ESP32 – Object Classification from Camera Feed (TinyML)
+## Project Overview
 
-### Project Overview
+This project demonstrates object classification on an ESP32 using a live camera feed and an embedded machine learning model. It implements TinyML workflows for real-time inference under constrained hardware, showing how vision-based AI can be deployed on edge microcontrollers.
 
-This project demonstrates how to implement object classification on an ESP32 microcontroller using a camera feed. It leverages TinyML concepts to deploy a machine learning model capable of classifying objects captured in real-time by the camera connected to the ESP32. The project shows how embedded systems can be enhanced with AI capabilities to perform complex tasks within resource-constrained environments.
+## Hardware Requirements
 
-### Components Required
-- ESP32 development board
-- OV2640 Camera Module (or compatible)
-- USB Cable for programming and power
+- ESP32 development board (e.g., ESP32-WROOM or ESP32-CAM)
+- OV2640 camera module
+- Micro-USB cable
 - Jumper wires
 - Breadboard (optional)
 
-### Software Requirements
+## Software Requirements
+
 - Arduino IDE or ESP-IDF
+- ESP32 board support
 - TensorFlow Lite for Microcontrollers
-- ESP32 Board Manager
-- Python (for model training and conversion)
+- Python (for training + model conversion)
+- `xxd` or similar to convert TFLite model into a C array
 
-### Features
-- Capture live images from the camera.
-- Classify objects using a pre-trained machine learning model.
-- Output classification results via serial monitor or connected display.
+## Features
 
-### Getting Started
+- Capture real-time camera frames
+- Run inference using a quantized TFLite model
+- Display classification results over serial output
+- Modular design separating camera, inference, and preprocessing logic
 
-1. **Hardware Setup:**
-   - Connect the OV2640 camera module to the ESP32 using jumper wires.
-   - Ensure proper VCC, GND, SCL, SDA, and other necessary connections are made as per the camera and ESP32 pinout requirements.
+## Getting Started
 
-2. **Software Setup:**
-   - Install Arduino IDE and add the ESP32 board through the board manager.
-   - Install the necessary libraries including ESP32 board support, and TensorFlow Lite for Microcontrollers.
-   - Prepare the dataset and train a small object classification model using TensorFlow, then convert it to TensorFlow Lite format optimized for microcontrollers.
+### 1. Hardware Setup
 
-3. **Model Deployment:**
-   - Load the model onto the ESP32 by integrating it into the codebase and flashing the program.
-   - Use the serial monitor to view the classification output.
+- Wire OV2640 camera to ESP32:
+  - `VCC → 3.3V`
+  - `GND → GND`
+  - `SDA/SCL`, `PWDN`, `XCLK`, etc. → according to ESP32 pinout
+- Use ESP32-CAM for plug-and-play setup
 
-4. **Run the Program:**
-   - Power the ESP32 using a USB cable.
-   - Open the serial monitor to see real-time object classification results.
+### 2. Software Setup
 
-### Directory Structure
+- Install Arduino IDE
+- Add ESP32 board URL:
+  `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`
+- Install necessary libraries (Wire, SPI, etc.)
+- Clone and install TensorFlow Lite for Microcontrollers if needed
+
+### 3. Model Training & Conversion
+
+- Train your CNN model with TensorFlow (small MobileNet or custom CNN)
+- Quantize and convert to `.tflite`
+- Convert `.tflite` model to a C array:
+  ```bash
+  xxd -i model.tflite > model_data.h
