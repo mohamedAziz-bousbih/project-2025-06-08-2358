@@ -1,0 +1,11 @@
+/esp32-object-classification
+│── README.md
+│── main.c
+│── model_data.h
+│── image_provider.c
+│── image_provider.h
+│── camera_setup.c
+│── camera_setup.h
+│── main_functions.c
+│── model.cc
+│── model.h
